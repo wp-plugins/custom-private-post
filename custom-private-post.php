@@ -6,7 +6,7 @@
 Plugin Name: Custom Private Post
 Plugin URI: http://mengzhuo.org/lab/wordpress/custom-private-post.html
 Description: Make your private Post customizable even in RSS feed
-Version: 1.0
+Version: 1.0.1
 Author: Meng Zhuo
 Author URI: http://mengzhuo.org
 License: GPLv2 or later
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 //definition goes here...
 define('CPP','custom-private-post');
-define('CPPVERSION','1.0');
+define('CPPVERSION','1.0.1');
 //definition end.
 
 load_plugin_textdomain(CPP, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
@@ -63,26 +63,12 @@ class CPP {
     function init(){
     
         add_action( 'the_post',array(&$this,'the_post_action') );
-        //add_action( 'atom_head',array(&$this,'feed_head_action') );
-        //add_action( 'rss_head',array(&$this,'feed_head_action') );
-        //add_action( 'rss2_head',array(&$this,'feed_head_action') );
-        
+       
         
         if (current_user_can('administrator')){
             add_action( 'admin_menu',array(&$this,'admin_menu') );
         }
     }
-    /*
-    function feed_head_action(){
-        add_filter( 'the_title_rss',array(&$this,'feed_filter'),1,1 );
-        //add_filter( 'the_excerpt_rss',array(&$this,'feed_filter'),1,1);
-    }
-    
-    function feed_filter($what){
-        if (get_post_status == 'private')
-            return ($what.'ABCDEFGHIJKL'.$which);
-    }
-    */
     
     function the_post_action(){
     
@@ -103,7 +89,9 @@ class CPP {
     }
     
     function admin_page(){
-    
+        if (!current_user_can('administrator')){
+            exit;
+        }
         if ( isset($_GET['back_to_default']) ){
             $this->set_default_option();
         }
@@ -113,11 +101,9 @@ class CPP {
             $update_setting_filters = array(
                 'title' => FILTER_SANITIZE_SPECIAL_CHARS,
                 'content' => FILTER_FLAG_STRIP_LOW,
-                'complete_block'=>FILTER_SANITIZE_SPECIAL_CHARS );
+                'complete_block'=>FILTER_VALIDATE_BOOLEAN );
                 
             $update_setting = filter_var_array( $_POST, $update_setting_filters);
-                        
-            $update_setting['complete_block'] = $this->checkbox_to_boolen( $update_setting['complete_block'] ); //hmm...inefficiency
             
             foreach( $update_setting as $key => $val ){
                 $this->option->$key = $val;
@@ -200,11 +186,6 @@ class CPP {
         if (!is_object($this->option)){
             $this->set_default_option();
         }
-    }
-    function checkbox_to_boolen($input){
-    
-        return ($input == 'on')?TRUE:FALSE;
-    
     }
     
     function set_default_option(){

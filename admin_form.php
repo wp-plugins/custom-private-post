@@ -13,7 +13,7 @@
     <h3 class="hndle"><span><?php _e('Settings');?></span></h3>
     <div class="misc-pub-section">
         <p class="meta-options inside">
-        <label for="complete_block"><input type="checkbox" <?php checked($this->option->complete_block, TRUE); ?> accesskey="b" id="complete_block" name="complete_block"></input><?php _e("Don't show the Private post anywhere"); ?></label>
+        <label for="complete_block"><input type="checkbox" <?php checked($this->option->complete_block, TRUE); ?> accesskey="b" id="complete_block" name="complete_block"></input><?php _e("Don't show the Private post anywhere",CPP); ?></label>
         </p>
     </div>
     <p id="major-publishing-actions">
