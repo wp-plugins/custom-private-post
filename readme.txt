@@ -4,7 +4,7 @@ Donate link: http://amzn.com/w/D4WJ5SD3PW5W
 Tags: private,post,custom
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.0
+Stable tag: 1.0.1
 
 License: GPLv2 or later
 
@@ -31,6 +31,9 @@ If you like to translate this plugins, the .po files(translation file) in the "l
  after you've translated it please send it to wordpress(at)mengzhuo.org, and attach with po file name by what your language called in English.
 
 == Changelog ==
+= 1.1 = 
+
+REMOVE:checkbox2boolean for a little bit effiency 
 
 = 1.0 =
 Brand New start
